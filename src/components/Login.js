@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from 'prop-types';
 
-export default function Login({ setToken, setUser }) {
+export default function Login({ setToken }) {
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
 
@@ -22,8 +22,11 @@ export default function Login({ setToken, setUser }) {
       username,
       password
     });
+    console.log(token)
     setToken(token);
-    setUser(username);
+    localStorage.setItem('username', username);
+    location.reload(); 
+
   }
 
 

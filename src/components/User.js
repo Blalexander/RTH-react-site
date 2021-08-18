@@ -16,6 +16,7 @@ export default function user() {
   const saveUser = userName => {
     localStorage.setItem('username', JSON.stringify(userName));
     setUser(userName);
+    location.reload(); 
   };
 
   return {

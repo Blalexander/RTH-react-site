@@ -1,5 +1,7 @@
 const path = require("path");
+// const webpack = require('webpack');
 const HtmlWebPackPlugin = require("html-webpack-plugin");
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin")
 const htmlPlugin = new HtmlWebPackPlugin({
   template: "./src/index.html",
   filename: "./index.html",
@@ -7,6 +9,11 @@ const htmlPlugin = new HtmlWebPackPlugin({
 
 module.exports = {
   mode: "development",
+  // node: {
+  //   global: false,
+  //   __filename: false,
+  //   __dirname: false,
+  // },
   module: {
     rules: [
       {
@@ -32,7 +39,17 @@ module.exports = {
     contentBase: './',
     hot: true
   },
-  plugins: [htmlPlugin],
+  plugins: [
+    htmlPlugin,
+    new NodePolyfillPlugin() ,
+    // new webpack.ContextReplacementPlugin(
+      // /express\/lib/,                    
+      // resolve('node_modules'),      
+      // {                           
+      //   'ejs': 'ejs'               
+      // }                                
+    // ) 
+  ],
   output: {
     filename: "[name].bundle.js",
     path: path.resolve(__dirname, "dist"),
@@ -40,6 +57,13 @@ module.exports = {
 
     publicPath: "/",
   },
+  resolve: {
+    fallback: {
+        "fs": false,
+        "child_process": false,
+        "worker_threads": false
+    },
+  }
 };
 
 // module.exports = {mode: 'development',

@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-family: 'Montserrat', sans-serif;
 }
 
 code {
@@ -18,8 +19,57 @@ code {
   padding: 0;
 }
 
+.hide-me {
+  display: none;
+}
+
 body {
-  background-color: #DBDFEA;
+  background-color: hsl(224, 26%, 90%);
+  overflow-x: hidden;
+}
+
+.user-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding-left: 1%;
+  z-index: 3;
+  width: 12vw;
+  height: 10vh;
+  display: flex;
+  justify-content: center;
+  flex-flow: column nowrap;
+}
+
+.user-container h3 {
+  color: hsl(236, 0%, 50%);
+  font-weight: lighter;
+}
+
+.user-container .user-name {
+  color: hsl(236, 100%, 20%);
+}
+
+.logout-button {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  padding-bottom:1.5%;
+  padding-left: 1.5%;
+/*   height: 3vh; */
+/*   width: 3vw; */
+  z-index: 4;
+  border: none;
+  background-color: transparent;
+  color: red;
+  font-size: 0.8em;
+  opacity: 0.6;
+  transition: 0.25s;
+} 
+
+.logout-button:hover {
+  cursor: pointer;
+  opacity: 1;
 }
 
 .nav-container {
@@ -31,16 +81,19 @@ body {
   width: 100vw;
   background-color: white;
   z-index: 1;
-  border-bottom: 2px solid #589BCB;
+/*   border-bottom: 2px solid #589BCB; */
+  border-bottom: 2px solid hsla(100, 0%, 70%, 0.6);
+/*   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); */
 }
 
 .nav-sidebar {
   height: 100vh;
-  width: 8vw;
+  width: 12vw;
   background-color: white;
   z-index: 2;
-  border-right: 2px solid #589BCB;
-  position: absolute;
+/*   border-right: 2px solid #589BCB; */
+  box-shadow: 4px 0 5px rgba(0, 0, 0, 0.2);
+  position: fixed;
   top: 0;
   left: 0;
   display: flex;
@@ -53,7 +106,22 @@ body {
 
 .nav-sidebar a {
   text-decoration: none;
-  color: #0a5a94;
+/*   color: #0a5a94; */
+  color: hsl(236, 0%, 30%);
+  transition: 0.25s;
+/*   width: 80%; */
+/*   margin-right: auto; */
+}
+
+.nav-sidebar a:hover {
+  cursor: pointer;
+  color: hsl(236, 100%, 14%);
+}
+
+a[class="active"] {
+  color: hsl(236, 100%, 14%);
+  border-bottom: 1px solid hsl(236, 100%, 14%);
+  margin-right: auto;
 }
 
 .body-content {
@@ -61,20 +129,70 @@ body {
   width: calc(100% - 22vw);
   position: absolute;
   top: 0;
-  left: 12vw;
+  left: 16vw;
+  color: hsl(230, 0%, 20%);
 }
 
 .body-content h1 {
   line-height: 10vh;
   margin-bottom: 6vh;
+  color: hsl(236, 0%, 50%);
+  font-weight: lighter;
 }
 
-#estimate-container {
+
+
+/* ----------------------------- SCHEDULES ------------------------------ */
+.month-name {
+  text-align: center;
+  line-height: 8vh;
+}
+
+.week {
+  display:flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+}
+
+.day {
+/*   border: 1px solid black; */
+  border: 1px solid hsla(100, 0%, 70%, 0.6);
+  background-color: white;
+  height: 5vh;
+  width: 9vw;
+  text-align: center;
+  line-height: 5vh;
+}
+
+.day_date {
+  height: 5vh;
+  line-height: 5vh
+}
+
+.schedule-employee-name {
+  width: 9vw;
+  line-height: 5vh;
+  text-align: center;
+}
+
+.day_date:first-of-type {
+  opacity: 0;
+  pointer-events:none;
+}
+
+.update-times {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 5vh;
+  width: 9vw;
+/*   background-color: #589BCB; */
   display: grid;
-  grid-template-columns: auto auto;
-  justify-content: start;
-  grid-gap: 2em;
-/*   align-content:start; */
+  grid-template-areas: "start to end" "submit submit submit";
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
 }
 
 label {
@@ -82,11 +200,234 @@ label {
 /*   width: 150%; */
 }
 
-.logout-button {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 3vh;
-/*   width: 3vw; */
-  z-index: 3;
+.update-times label {
+  display: none;
+}
+
+.update-times input {
+  width: 100%;
+/*   border-radius: 5px; */
+/*   border: 1px solid gray; */
+}
+
+#eStart {
+  grid-area: start;
+}
+
+#start-to-end {
+  grid-area: to;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+}
+
+#eEnd {
+  grid-area: end;
+}
+
+.update-times button {
+  grid-area: submit;
+  width: 80%;
+  margin-left: 10%;
+}
+
+.currently-selected {
+  background-color: hsla(200, 100%, 45%, 0.4);
+  box-shadow: inset 0 0 5px hsla(200, 100%, 100%, 0.5);
+/*   border: 2px solid hsla(236, 100%, 20%, 0.3); */
+}
+
+
+
+/* -----------------------------------ROUTES-------------------------------------- */
+.drivers-container {
+/*   border: 1px solid black; */
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-evenly;
+}
+
+.each-driver {
+  height: 10vh;
+  width: 100%;
+  margin-bottom: 2vh;
+  border: 1px solid green;
+  display: grid;
+  grid-template-areas: "availability name times calendar calendar" "status status status . ." "activity activity activity activity activity";
+}
+
+.each-driver div {
+  pointer-events: none;
+/*   width: 50%; */
+}
+
+.each-driver:hover {
+  cursor: pointer;
+}
+
+.driver-availability {
+  grid-area: availability;
+  border: 1px solid red;
+  height: 50px;
+  width: 50px;
+}
+
+.driver-name {
+  grid-area: name;
+}
+
+.driver-times {
+  grid-area: times;
+}
+
+.driver-status {
+  grid-area: status;
+}
+
+.driver-calendar {
+  grid-area: calendar;
+/*   height: 5vh; */
+/*   width: 150%; */
+  border: 1px solid blue;
+}
+
+.driver-activity {
+  grid-area: activity;
+/*   height: 90%; */
+/*   width: 5vw; */
+  border: 1px solid blue;
+}
+
+.driver-calendar, .driver-activity {
+  display: none;
+}
+
+.show-details .driver-calendar, .show-details .driver-activity {
+  display: flex;
+}
+
+.show-details {
+  height: 30vh;
+  
+}
+
+
+/* --------------------------------------CATALOG------------------------------------- */
+.item-container {
+/*   border: 1px solid black; */
+/*   display: grid; */
+/*   grid-template-columns: auto auto auto auto auto; */
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  gap: 50px;
+}
+
+.each-item {
+  border: 1px solid blue;
+  height: 15vh;
+  width: 15vh;
+}
+
+
+/* ----------------------------------CREATE ESTIMATE----------------------------------- */
+#estimate-container {
+  display: grid;
+  grid-template-columns: 45% auto;
+/*   grid-template-columns: auto auto; */
+/*   justify-content: start; */
+  grid-gap: 2em;
+  grid-column-gap: 10%;
+  align-items: start;
+}
+
+.estimateFormLabel input {
+  background-color: transparent;
+  height: 140%;
+  border: none;
+  border-bottom: 1px solid gray;
+}
+
+.short-text, .long-text {
+/*   width: 400px; */
+/*   overflow-wrap: break-word; */
+/*   word-wrap: break-word; */
+/*   white-space: break-spaces; */
+}
+
+.estimateFormLabel.long-text {
+/*   margin-bottom: 3em; */
+/*   height: 100%; */
+}
+
+.estimateFormLabel .long-text {
+/*   height: 300%; */
+/*   line-height: 100%; */
+  
+}
+
+.yes-no {
+  display: flex;
+  flex-flow: row nowrap;
+/*   justify-content: space-between; */
+  align-items: center;
+}
+
+.yes-no label {
+  margin-left: 2em;
+}
+
+.submit-form-but {
+  margin-top: 3em;
+/*   position: fixed;
+  top: 20vh;
+  right: 15vw; */
+}
+
+.cart-items {
+  height: 20vh;
+  border: 1px solid black;
+  float: right;
+  width: 70%;
+  margin-top: 3em;
+
+  display: flex;
+  flex-flow: column wrap;
+}
+
+.item-in-cart {
+  border: 1px solid green;
+  display: flex;
+  flex-flow: row-reverse nowrap;
+  justify-content: flex-end;
+  align-items: center;
+  width: 45%;
+  margin: 1%;
+  padding: 1%;
+  border-radius: 5px;
+}
+
+.delete-item {
+  height: 15px;
+  width: 15px;
+  background-color: red;
+  margin-right: 0.5em;
+}
+
+
+
+/* --------------------- ESTIMATES -------------------------- */
+.display-estimates-container {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.each-estimate {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-evenly;
+  margin-bottom: 1em;
+  padding: 0.5em;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px hsla(0, 100%, 0%, 0.2);
 }

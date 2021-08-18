@@ -49,3 +49,9 @@ export default function Register({ setToken }) {
 Register.propTypes = {
   setToken: PropTypes.func.isRequired
 }
+
+// Storage { token: "{\"username\":\"jessica\",\"id\":\"60f4693bb257e62f88d26033\"}", length: 1 }
+// -> Login
+// Object { authToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJuYW1lIjoiamVzc2ljYSIsImlkIjoiNjBmNDY5M2JiMjU3ZTYyZjg4ZDI2MDMzIn0sImlhdCI6MTYyNjYzMDU2NCwiZXhwIjoxNjI3MjM1MzY0LCJzdWIiOiJqZXNzaWNhIn0.-xjABq7_b92kRe9GqUxp3-JwDInkhaiMptBy8f63lJU" }
+
+

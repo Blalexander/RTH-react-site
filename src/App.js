@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import './App.css';
+// import './App.css';
 import Login from './components/Login';
 import Register from './components/Register';
 import Dashboard from './components/Dashboard';
@@ -19,21 +19,37 @@ import user from './components/User';
 
 function App() {
   const { token, setToken } = useToken();
-  const { username, setUser} = user();
-  const [ isLoggedOut, setIsLoggedOut ] = useState('');
 
   if(!token) {
     return (
       <div className="login-register-container">
-        <Login setToken={setToken} setUser={setUser} />
-        {/* <Register setToken={setToken} /> */}
+        <Login setToken={setToken} />
+        <Register setToken={setToken} />
       </div>
     )
   }
 
   useEffect(() => {
-    console.log(token)
-  }, [token])
+    console.log("reloaded")
+  }, [])
+
+  // const [initialData, setInitialData] = useState("")
+
+  // useEffect(() => {
+  //     const fetchInitialData = async () => {
+  //         const result = await fetch('http://localhost:3000/api/users', {
+  //         method: "GET",
+  //         headers: {
+  //             'Content-Type': 'application/json',
+  //         }
+  //         }).then(res => {
+  //         return res.json()
+  //         })
+  //         setInitialData(result);
+  //         console.log(initialData)
+  //     }
+  //     fetchInitialData()
+  // }, [])
 
   // const [initialData, setInitialData] = useState('')
   let bodyFiller = {name: 'blake', borough: 'yesmaam', cuisine: 'yeehaw'}
@@ -65,7 +81,7 @@ function App() {
 
   function logOut() {
 		localStorage.clear();
-    setIsLoggedOut(2)
+    location.reload(); 
     // setUser(null)
     // return (
     //   <div className="login-register-container">
@@ -79,7 +95,10 @@ function App() {
     <BrowserRouter>
       <div> 
         <button onClick={logOut} className="logout-button">Logout</button>
-        {/* <User username={setUser} /> */}
+        <div className="user-container">
+          <h3>Welcome back, </h3>
+          <h3 className="user-name">{localStorage.username}</h3>
+        </div>
         <Navigation />
           <Switch>
             <Route path="/" component={Dashboard} exact />
