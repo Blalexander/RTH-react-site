@@ -1,43 +1,50 @@
 import React, { useState, useEffect, createContext } from "react";
+const OAuthClient = require('intuit-oauth');
 
 const CreateEstimate = () => {
   const [formOptions, setFormOptions] = useState({
-    'Pet Name': {'value': '', 'type': 'short-text', 'desc': 'Pet Name'},
-    'Date of Passing': {'value': '', 'type': 'short-text', 'desc': 'Date of Passing'},
-    'Type of Pet': {'value': '', 'type': 'short-text', 'desc': 'Type of Pet'},
-    'Sex': {'value': '', 'type': 'short-text', 'desc': 'Sex'}, 
-    'Color': {'value': '', 'type': 'short-text', 'desc': 'Color'},
-    'Breed': {'value': '', 'type': 'short-text', 'desc': 'Breed'},
-    'Age (years)': {'value': '', 'type': 'short-text', 'desc': 'Age (years)'},
-    'Weight (pounds)': {'value': '', 'type': 'short-text', 'desc': 'Weight (pounds)'},
-    'Owner Name': {'value': '', 'type': 'short-text', 'desc': 'Owner Name'},
-    'Phone': {'value': '', 'type': 'short-text', 'desc': 'Phone'},
-    'Email': {'value': '', 'type': 'short-text', 'desc': 'Email'},
-    'Address': {'value': '', 'type': 'short-text', 'desc': 'Address'},
-    'City': {'value': '', 'type': 'short-text', 'desc': 'City'},
-    'State': {'value': '', 'type': 'short-text', 'desc': 'State'},
-    'Zip Code': {'value': '', 'type': 'short-text', 'desc': 'Zip Code'},
-    'Pick Up same Name/Address as Pet Owner?': {'value': '', 'type': 'yes-no', 'desc': 'Pick Up same Name/Address as Pet Owner?'},
-    'Return Cremains to Pet Owner (Client) Name/Address': {'value': '', 'type': 'yes-no', 'desc': 'Return Cremains to Pet Owner (Client) Name/Address'},
-    'Assigned to:': {'value': '', 'type': 'short-text', 'desc': 'Assigned to:'},
-    'Pet Pickup Date': {'value': '', 'type': 'date', 'desc': 'Pet Pickup Date'},
-    'Pickup Time': {'value': '', 'type': 'short-text', 'desc': 'Pickup Time'},
-    'Engraving Order Date': {'value': '', 'type': 'date', 'desc': 'Engraving Order Date'},
-    'Engraving Name Plate Info': {'value': '', 'type': 'long-text', 'desc': 'Engraving Name Plate Info'},
-    'Special Instructions': {'value': '', 'type': 'long-text', 'desc': 'Special Instructions'},
-    'Cremation Service': {'value': '', 'type': 'dropdown', 'desc': 'Cremation Service'},
-    'Paw Print Options': {'value': '', 'type': 'dropdown', 'desc': 'Paw Print Options'},
-    'Urn': {'value': '', 'type': 'dropdown', 'desc': 'Urn'},
-    'Jewelry/Keychain': {'value': '', 'type': 'dropdown', 'desc': 'Jewelry/Keychain'},
-    'Nose Print': {'value': '', 'type': 'dropdown', 'desc': 'Nose Print'},
-    'Photo': {'value': '', 'type': 'yes-no', 'desc': 'Photo'},
-    'Cut Hair': {'value': '', 'type': 'yes-no', 'desc': 'Cut Hair'},
-    'Special Order Statues': {'value': '', 'type': 'dropdown', 'desc': 'Special Order Statues'},
-    'Special Order Link': {'value': '', 'type': 'short-text', 'desc': 'Special Order Link'},
-    'Delivery Option': {'value': '', 'type': 'dropdown', 'desc': 'Delivery Option'},
-    'Delivery Fee': {'value': '', 'type': 'short-text', 'desc': 'Delivery Fee'},
-    'Coordination Fee': {'value': '', 'type': 'short-text', 'desc': 'Coordination Fee'},
-    'Discount': {'value': '', 'type': 'short-text', 'desc': 'Discount'},
+    'Pet Information': {
+      'Pet Name': {'value': '', 'type': 'short-text', 'desc': 'Pet Name'},
+      'Date of Passing': {'value': '', 'type': 'short-text', 'desc': 'Date of Passing'},
+      'Type of Pet': {'value': '', 'type': 'short-text', 'desc': 'Type of Pet'},
+      'Sex': {'value': '', 'type': 'short-text', 'desc': 'Sex'}, 
+      'Color': {'value': '', 'type': 'short-text', 'desc': 'Color'},
+      'Breed': {'value': '', 'type': 'short-text', 'desc': 'Breed'},
+      'Age (years)': {'value': '', 'type': 'short-text', 'desc': 'Age (years)'},
+      'Weight (pounds)': {'value': '', 'type': 'short-text', 'desc': 'Weight (pounds)'},
+    },
+    'Owner Information': {
+      'Owner Name': {'value': '', 'type': 'short-text', 'desc': 'Owner Name'},
+      'Phone': {'value': '', 'type': 'short-text', 'desc': 'Phone'},
+      'Email': {'value': '', 'type': 'short-text', 'desc': 'Email'},
+      'Address': {'value': '', 'type': 'short-text', 'desc': 'Address'},
+      'City': {'value': '', 'type': 'short-text', 'desc': 'City'},
+      'State': {'value': '', 'type': 'short-text', 'desc': 'State'},
+      'Zip Code': {'value': '', 'type': 'short-text', 'desc': 'Zip Code'},
+      'Pick Up same Name/Address as Pet Owner?': {'value': '', 'type': 'yes-no', 'desc': 'Pick Up same Name/Address as Pet Owner?'},
+      'Return Cremains to Pet Owner (Client) Name/Address': {'value': '', 'type': 'yes-no', 'desc': 'Return Cremains to Pet Owner (Client) Name/Address'},
+    },
+    'Order Information': {
+      'Assigned to:': {'value': '', 'type': 'short-text', 'desc': 'Assigned to:'},
+      'Pet Pickup Date': {'value': '', 'type': 'date', 'desc': 'Pet Pickup Date'},
+      'Pickup Time': {'value': '', 'type': 'short-text', 'desc': 'Pickup Time'},
+      'Engraving Order Date': {'value': '', 'type': 'date', 'desc': 'Engraving Order Date'},
+      'Engraving Name Plate Info': {'value': '', 'type': 'long-text', 'desc': 'Engraving Name Plate Info'},
+      'Special Instructions': {'value': '', 'type': 'long-text', 'desc': 'Special Instructions'},
+      'Cremation Service': {'value': '', 'type': 'dropdown', 'desc': 'Cremation Service'},
+      'Paw Print Options': {'value': '', 'type': 'dropdown', 'desc': 'Paw Print Options'},
+      'Urn': {'value': '', 'type': 'dropdown', 'desc': 'Urn'},
+      'Jewelry/Keychain': {'value': '', 'type': 'dropdown', 'desc': 'Jewelry/Keychain'},
+      'Nose Print': {'value': '', 'type': 'dropdown', 'desc': 'Nose Print'},
+      'Photo': {'value': '', 'type': 'yes-no', 'desc': 'Photo'},
+      'Cut Hair': {'value': '', 'type': 'yes-no', 'desc': 'Cut Hair'},
+      'Special Order Statues': {'value': '', 'type': 'dropdown', 'desc': 'Special Order Statues'},
+      'Special Order Link': {'value': '', 'type': 'short-text', 'desc': 'Special Order Link'},
+      'Delivery Option': {'value': '', 'type': 'dropdown', 'desc': 'Delivery Option'},
+      'Delivery Fee': {'value': '', 'type': 'short-text', 'desc': 'Delivery Fee'},
+      'Coordination Fee': {'value': '', 'type': 'short-text', 'desc': 'Coordination Fee'},
+      'Discount': {'value': '', 'type': 'short-text', 'desc': 'Discount'},
+    }
   })
 
   let itemOptions = {
@@ -112,20 +119,67 @@ const CreateEstimate = () => {
 
 
   function CreateEstimateForm(a) {
-    // console.log(a)
-    // let listOfEstimates = []
-    // let keyFixer = 0
-    let estimateKeys = Object.keys(a)
-    let listOfEstimates = estimateKeys.map(eachFormLine => {
-      // keyFixer++
-      return(<EstimateConstructor key={formOptions[eachFormLine].desc} value={formOptions[eachFormLine].value} desc={formOptions[eachFormLine].desc} type={formOptions[eachFormLine].type} />)
+    let petKeys = Object.keys(a['Pet Information'])
+    petKeys.unshift('filler')
+    let ownerKeys = Object.keys(a['Owner Information'])
+    ownerKeys.unshift('filler')
+    let orderKeys = Object.keys(a['Order Information'])
+    orderKeys.unshift('filler')
+    let estimateKeys = petKeys.concat(ownerKeys, orderKeys)
+    console.log(estimateKeys)
+
+    let listOfEstimates = estimateKeys.map((eachFormLine, lineNum) => {
+      let whichSlot
+      if(lineNum < petKeys.length) {
+        whichSlot = 'Pet Information'
+      }
+      else if(lineNum >= petKeys.length && lineNum < (ownerKeys.length + petKeys.length)) {
+        whichSlot = 'Owner Information'
+      }
+      else if(lineNum >= (petKeys.length + ownerKeys.length) && lineNum < (orderKeys.length + ownerKeys.length + petKeys.length)) {
+        whichSlot = 'Order Information'
+      }
+
+      if(eachFormLine == 'filler') {
+        return (
+          <h3 key={whichSlot} className="estimate-section-divider">{whichSlot}</h3>
+        )
+      }
+
+      return(<EstimateConstructor key={formOptions[whichSlot][eachFormLine].desc} value={formOptions[whichSlot][eachFormLine].value} desc={formOptions[whichSlot][eachFormLine].desc} type={formOptions[whichSlot][eachFormLine].type} keyType={whichSlot} />)
     })
+
+    let petEnd = petKeys.length
+    let ownerStart = petKeys.length 
+    let ownerEnd = petKeys.length + ownerKeys.length 
+    let orderStart = petKeys.length + ownerKeys.length 
+    let orderEnd = listOfEstimates.length
+    let petFormLines = listOfEstimates.slice(0, petEnd)
+    let ownerFormLines = listOfEstimates.slice(ownerStart, ownerEnd)
+    let orderFormLines = listOfEstimates.slice(orderStart, orderEnd)
+
+    console.log(petFormLines, ownerFormLines, orderFormLines)
+
 
     return (
       <div id="estimate-container">
-        {listOfEstimates}
+        <div className="pet-estimate-section estimate-section">
+          {petFormLines}
+        </div>
+        <div className="owner-estimate-section estimate-section">
+          {ownerFormLines}
+        </div>
+        <div className="order-estimate-section estimate-section">
+          {orderFormLines}
+        </div>
       </div>
     )
+
+    // return (
+    //   <div id="estimate-container">
+    //     {listOfEstimates}
+    //   </div>
+    // )
   }
 
   function EstimateConstructor(estimateItem) {
@@ -157,26 +211,28 @@ const CreateEstimate = () => {
       }
       let dropdownOps = Object.keys(whichDropDown).map(eachKey => {
         return (
-          <option value={eachKey} onClick={(e) => updateCart(e)}>{eachKey}</option>
+          <option key={eachKey} value={eachKey} onClick={(e) => updateCart(e)}>{eachKey}</option>
         )
       })
 
+      let classType = estimateItem.keyType.toLowerCase()
+      classType = classType.replace(/\s/g , "-")
       switch(estimateItem.type) {
         case "short-text": 
           return (
-            <label className="estimateFormLabel">{estimateItem.desc}
-              <input className="estimateFormInput short-text" type="text" name={estimateItem.desc}></input>
+            <label className={"estimateFormLabel " + classType}>{estimateItem.desc}
+              <input className={"estimateFormInput short-text " + classType} type="text" name={estimateItem.desc}></input>
             </label>
           )
         case "long-text": 
           return (
-            <label className="estimateFormLabel long-text">{estimateItem.desc}
+            <label className={"estimateFormLabel long-text " + classType}>{estimateItem.desc}
               <textarea className="estimateFormInput long-text" type="text" name={estimateItem.desc}></textarea>
             </label>
           )
         case "yes-no": 
           return (
-            <label className="estimateFormLabel yes-no">{estimateItem.desc}
+            <label className={"estimateFormLabel yes-no " + classType}>{estimateItem.desc}
               <label>Yes
                 <input className="estimateFormInput" type="radio" name={estimateItem.desc} value="yes"></input>
               </label>
@@ -187,7 +243,7 @@ const CreateEstimate = () => {
           )
         case "dropdown": 
           return (
-            <label className="estimateFormLabel">{estimateItem.desc}
+            <label className={"estimateFormLabel " + classType}>{estimateItem.desc}
               <select className="estimateFormInput">
                 {dropdownOps}
                 {/* <option value="1">1</option>
@@ -198,7 +254,7 @@ const CreateEstimate = () => {
           )
         default: 
           return (
-            <label className="estimateFormLabel">{estimateItem.desc}
+            <label className={"estimateFormLabel " + classType}>{estimateItem.desc}
               <input className="estimateFormInput short-text" type="text" name={estimateItem.desc}></input>
             </label>
           )
@@ -236,8 +292,46 @@ const CreateEstimate = () => {
     }
     formEntries["Created By"] = localStorage.username
 
+
+
+
+    const checkDS = async () => {
+      const result = await fetch('http://localhost:5000/eg050', {
+        method: "GET",
+        // body: JSON.stringify(formEntries),
+        // body: bodyFiller,
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }).then(res => {
+        // return res.json()
+        console.log(res)
+        // location.href = res.url
+        window.open(res.url, 'popup','width=600,height=600')
+      })
+    }
+    checkDS()
+
+
+    // const checkQuickbooks = async () => {
+    //   const result = await fetch('https://6d03-47-154-221-234.ngrok.io/authUri1', {
+    //     method: "GET",
+    //     // body: JSON.stringify(formEntries),
+    //     // body: bodyFiller,
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     }
+    //   }).then(res => {
+    //     // return res.json()
+    //     console.log(res)
+    //   })
+    // }
+    // checkQuickbooks()
+
+
+
     // console.log(formEntries) 
-    const fetchInitialData = async () => {
+    const postEstimateToServer = async () => {
       const result = await fetch('http://localhost:3000/api/estimates', {
         method: "POST",
         body: JSON.stringify(formEntries),
@@ -246,10 +340,74 @@ const CreateEstimate = () => {
           'Content-Type': 'application/json',
         }
       }).then(res => {
-        return res.json()
+        // return res.json()
+        console.log(res)
       })
     }
-    fetchInitialData()
+    // postEstimateToServer()
+
+    function sendEmail() {
+      Email.send({
+      Host: "smtp.elasticemail.com",
+      Username : "blake.alexander.13@gmail.com",
+      Password : "61C93F8CBF8B0E4B1236B96449605E338F66",
+      To : 'blakealexanderdev@gmail.com',
+      From : "blake.alexander.13@gmail.com",
+      Subject : "testing email sending for app",
+      Body : formEntries,
+      }).then(
+        // message => alert("mail sent successfully")
+        message => console.log(message.status)
+      );
+    }
+    // sendEmail()
+
+    // downloadCSV(formEntries)
+
+  }
+
+  function downloadCSV (a) {
+    let arr = a
+  
+    var keys = [];
+    var values = [];
+    function getKeys(data, k = '') {
+      for (var i in data) {
+        var rest = k.length ? '_' + i : i
+        if (typeof data[i] == 'object') {
+          if (!Array.isArray(data[i])) {
+            getKeys(data[i], k + rest)
+          }
+        } else keys.push( k+ rest)
+      }
+    }   
+    function getValues(data, k = '') {
+      for (var i in data) {
+        var rest = k.length ? '' + i : i
+        if (typeof data[i] == 'object') {
+          if (!Array.isArray(data[i])) {
+            getValues(data[i], k + rest)
+          }
+        }
+        else values.push(data[rest])
+      }
+    }
+
+    getKeys(arr[0])
+    var value="";
+    arr.forEach(x=>{
+       values=[];
+       getValues(x);
+       value+=values.join(";")+"\r\n";
+    })
+    
+    let result = keys.join(";")+"\r\n"+value;
+    let fileToSave = new Blob([result], {
+       type: "csv",
+       name: 'data.csv'
+     });
+        
+    saveAs(fileToSave, 'data.csv');
   }
 
   function updateCart(c) {

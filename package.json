@@ -27,8 +27,12 @@
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "intuit": "0.0.22",
+    "intuit-oauth": "^4.0.0",
     "jsonwebtoken": "^8.5.1",
     "node-polyfill-webpack-plugin": "^1.1.4",
+    "node-quickbooks": "^2.0.39",
+    "oauth": "^0.9.15",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
