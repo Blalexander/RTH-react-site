@@ -1,0 +1,4 @@
+{
+  "appService.defaultWebAppToDeploy": "/subscriptions/cc750621-bff1-4a42-a2f6-5b2ca75537c3/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/rth-app",
+  "appService.deploySubpath": "."
+}
